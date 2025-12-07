@@ -12,7 +12,16 @@ private:
     }
 public:
     int numSquares(int n) {
-        vector<int>dp(n+1,INT_MAX);
-        return rec(n,dp);
+        vector<int>dp(n+1,1e9);
+        dp[0]=0;
+        // return rec(n,dp);
+        for(int i=1;i<=n;i++){
+            for (int s = 1; s * s <= i; s++) {
+                dp[i] = min(dp[i], 1 + dp[i - s * s]);
+            }
+        }
+
+        return dp[n];
+
     }
 };

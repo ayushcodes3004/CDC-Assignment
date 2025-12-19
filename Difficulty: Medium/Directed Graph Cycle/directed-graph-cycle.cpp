@@ -1,17 +1,4 @@
 class Solution {
-  private:
-    bool dfs(int node,vector<vector<int>>&adj,vector<bool>&vis,vector<bool>&dfsVis){
-        vis[node]=1;
-        dfsVis[node]=1;
-        for(int neigh: adj[node]){
-            if(!vis[neigh]){
-                if(dfs(neigh,adj,vis,dfsVis))   return true;
-            }
-            else if(dfsVis[neigh])  return true;
-        }
-        dfsVis[node]=0;
-        return false;
-    }
   public:
     bool isCyclic(int V, vector<vector<int>> &edges) {
         // code here
@@ -21,13 +8,26 @@ class Solution {
             int v=e[1];
             adj[u].push_back(v);
         }
-        vector<bool>vis(V,0);
-        vector<bool>dfsVis(V,0);
-        for(int i=0;i<V;i++){
-            if(!vis[i]){
-                if(dfs(i,adj,vis,dfsVis))   return true;
+        vector<int>indegree(V,0);
+        for(int u=0;u<V;u++){
+            for(int v:adj[u]){
+                indegree[v]++;
             }
         }
-        return false;
+        queue<int>q;
+        for(int i=0;i<V;i++){
+            if(indegree[i]==0)  q.push(i);
+        }
+        vector<int>ans;
+        while(!q.empty()){
+            int node=q.front();
+            q.pop();
+            ans.push_back(node);
+            for(auto neigh: adj[node]){
+                indegree[neigh]--;
+                if(indegree[neigh]==0) q.push(neigh);
+            }
+        }
+        return (ans.size()!=V);
     }
 };

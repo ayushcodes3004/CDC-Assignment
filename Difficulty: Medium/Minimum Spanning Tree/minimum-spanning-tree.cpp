@@ -8,22 +8,23 @@ class Solution {
             adj[u].push_back({v,w});
             adj[v].push_back({u,w});
         }
+        vector<bool>vis(V,0);
         priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
-        vector<int>vis(V,0);
         pq.push({0,0});
-        int sum=0;
+        int ans=0;
         while(!pq.empty()){
-            auto [wt,node]=pq.top();
-            pq.pop();
-            if(vis[node])   continue;
+            int wt=pq.top().first;
+            int node=pq.top().second;
+            pq.pop(); 
+            if (vis[node]) continue;
             vis[node]=1;
-            sum+=wt;
-            for(auto [neigh,w]: adj[node]){
-                if(!vis[neigh]){
-                    pq.push({w,neigh});
+            ans+=wt;
+            for(auto[aNode,aWt]:adj[node]){
+                if(!vis[aNode]){
+                    pq.push({aWt,aNode});
                 }
             }
         }
-        return sum;
+        return ans;
     }
 };

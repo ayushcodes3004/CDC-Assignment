@@ -1,6 +1,6 @@
 class Solution {
   private:
-    void bfsHelper(int i,vector<vector<int>> &adj,vector<bool>& vis,vector<int>& ans){
+    void bfsHelper(int i,vector<vector<int>> &adj,vector<bool>&vis,vector<int>& ans){
         queue<int>q;
         q.push(i);
         vis[i]=1;
@@ -8,19 +8,20 @@ class Solution {
             int node=q.front();
             q.pop();
             ans.push_back(node);
-            for(int neigh:adj[node]){
-                if(!vis[neigh])
+            for(int neigh: adj[node]){
+                if(!vis[neigh]){
+                    vis[neigh]=1;
                     q.push(neigh);
-                vis[neigh]=1;
+                }
             }
         }
     }
   public:
     vector<int> bfs(vector<vector<int>> &adj) {
         // code here
-        int V=adj.size();
+        int n=adj.size();
         vector<int>ans;
-        vector<bool>vis(V,false);
+        vector<bool>vis(n,0);
         bfsHelper(0,adj,vis,ans);
         return ans;
     }

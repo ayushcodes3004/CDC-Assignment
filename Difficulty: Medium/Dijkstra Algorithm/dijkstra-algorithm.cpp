@@ -13,13 +13,13 @@ class Solution {
         dist[src]=0;
         pq.push({0,src});
         while(!pq.empty()){
+            int currDist=pq.top().first;
             int node=pq.top().second;
-            int wt=pq.top().first;
             pq.pop();
-            if(wt>dist[node])   continue;
-            for(auto [neigh,weight]: adj[node]){
-                if(dist[node]+weight<dist[neigh]){
-                    dist[neigh]=weight+dist[node];
+            if (currDist > dist[node]) continue;
+            for(auto[neigh,wt]:adj[node]){
+                if(dist[node]+wt<dist[neigh]){
+                    dist[neigh]=wt+dist[node];
                     pq.push({dist[neigh],neigh});
                 }
             }

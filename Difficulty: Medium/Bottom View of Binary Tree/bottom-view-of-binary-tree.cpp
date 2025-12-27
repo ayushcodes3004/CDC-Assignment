@@ -17,21 +17,22 @@ class Solution {
     vector<int> bottomView(Node *root) {
         // code here
         vector<int>ans;
-        if(root == NULL) return ans;
+        if(root==NULL)  return ans;
         map<int,int>mp;
-        queue<pair<Node*,int>>q;//{node,hd}
+        queue<pair<Node*,int>>q;
         q.push({root,0});
         while(!q.empty()){
-            auto front=q.front();
+            Node* front=q.front().first;
+            int hd=q.front().second;
             q.pop();
-            Node* node=front.first;
-            int hd=front.second;
-            mp[hd]=node->data;
-            if(node->left)      q.push({node->left,hd-1});
-            if(node->right)      q.push({node->right,hd+1});
+            
+            mp[hd]=front->data;
+            
+            if(front->left) q.push({front->left,hd-1});
+            if(front->right)    q.push({front->right,hd+1});
         }
-        for(auto [hd,nodeVal]:mp){
-            ans.push_back(nodeVal);
+        for(auto it: mp){
+            ans.push_back(it.second);
         }
         return ans;
     }
